@@ -1,407 +1,335 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mẹt Phim – Phim Hoạt Hình</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-  <style>
-    :root {
-      --bg:        #121212;
-      --bg2:       #181818;
-      --surface:   #282828;
-      --green:     #1DB954;
-      --green-dk:  #158a3e;
-      --green-glow:rgba(29,185,84,0.22);
-      --white:     #ffffff;
-      --gray:      #b3b3b3;
-      --gray-dim:  rgba(255,255,255,0.07);
-    }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html{scroll-behavior:smooth}
-    body{
-      font-family:'Plus Jakarta Sans',sans-serif;
-      background:var(--bg);
-      color:var(--white);
-      overflow-x:hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetPhim - Xem Phim Trực Tuyến</title>
+    <style>
+        /* CSS */
+        :root {
+            --bg-color: #0b0f15;
+            --header-bg: #111821;
+            --text-color: #ffffff;
+            --text-muted: #9ca3af;
+            --accent-color: #f59e0b; /* Màu cam giống MotPhim */
+            --card-bg: #1f2937;
+        }
 
-    /* ── NAV ── */
-    nav{
-      position:sticky;top:0;z-index:200;
-      background:rgba(18,18,18,0.97);
-      backdrop-filter:blur(12px);
-      border-bottom:1px solid rgba(255,255,255,0.05);
-      display:flex;align-items:center;justify-content:space-between;
-      padding:0 2.5rem;height:64px;
-    }
-    .nav-logo{
-      font-size:1.25rem;font-weight:900;
-      color:var(--green);letter-spacing:0.01em;
-      text-decoration:none;
-    }
-    .nav-links{display:flex;gap:0.2rem}
-    .nav-links a{
-      color:var(--gray);text-decoration:none;
-      font-size:0.875rem;font-weight:600;
-      padding:0.45rem 1rem;border-radius:20px;
-      transition:color 0.2s,background 0.2s;
-    }
-    .nav-links a:hover{color:var(--white);background:var(--gray-dim)}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    /* ── BILLBOARD ── */
-    .billboard{
-      position:relative;width:100%;min-height:520px;
-      display:flex;align-items:flex-end;overflow:hidden;background:#000;
-    }
-    .billboard-bg{
-      position:absolute;inset:0;
-      background:
-        linear-gradient(to top, #121212 0%, rgba(18,18,18,0.5) 55%, rgba(18,18,18,0.1) 100%),
-        linear-gradient(to right, #121212 0%, transparent 50%),
-        url('https://res.cloudinary.com/dlrax6e5x/image/upload/v1776002510/gwnngzmttpgk7sbmfofe.png') center/cover no-repeat;
-    }
-    .billboard-content{
-      position:relative;z-index:2;
-      padding:3rem 4rem 4rem;max-width:600px;
-    }
-    .billboard-tag{
-      display:inline-flex;align-items:center;gap:0.4rem;
-      background:var(--green);color:#000;
-      font-size:0.68rem;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;
-      padding:0.3rem 0.85rem;border-radius:20px;margin-bottom:1.25rem;
-    }
-    .billboard-title{
-      font-size:clamp(2.5rem,6.5vw,5rem);
-      font-weight:900;line-height:1.05;
-      color:#fff;text-shadow:0 2px 24px rgba(0,0,0,0.9);
-      margin-bottom:1rem;letter-spacing:-0.01em;
-    }
-    .billboard-sub{
-      font-size:0.95rem;font-weight:500;
-      color:rgba(255,255,255,0.7);line-height:1.65;
-      margin-bottom:1.75rem;max-width:430px;
-    }
-    .billboard-actions{display:flex;gap:0.75rem;flex-wrap:wrap}
-    .btn-play{
-      display:inline-flex;align-items:center;gap:0.5rem;
-      background:var(--green);color:#000;
-      font-weight:800;font-size:0.95rem;
-      padding:0.75rem 1.85rem;border-radius:30px;
-      text-decoration:none;transition:transform 0.15s,background 0.2s;
-    }
-    .btn-play:hover{background:#1ed760;transform:scale(1.04)}
-    .btn-more{
-      display:inline-flex;align-items:center;gap:0.5rem;
-      background:transparent;color:#fff;
-      font-weight:700;font-size:0.95rem;
-      padding:0.72rem 1.75rem;border-radius:30px;
-      border:1px solid rgba(255,255,255,0.35);
-      text-decoration:none;transition:border-color 0.2s,background 0.2s;
-    }
-    .btn-more:hover{border-color:#fff;background:rgba(255,255,255,0.07)}
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
 
-    /* ── CONTENT ── */
-    .content-area{max-width:1200px;margin:0 auto;padding:0 2.5rem 5rem}
+        a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
 
-    /* ── ROW HEADER ── */
-    .row-header{
-      display:flex;align-items:center;gap:0.75rem;
-      padding:3rem 0 1.25rem;
-    }
-    .row-bar{width:4px;height:22px;background:var(--green);border-radius:2px;flex-shrink:0}
-    .row-header h2{font-size:1.3rem;font-weight:800;letter-spacing:0.02em;color:#fff}
+        a:hover {
+            color: var(--accent-color);
+        }
 
-    /* ── FILM SHELF (MọtPhim style) ── */
-    .film-shelf{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-      gap:1rem;
-    }
-    .film-card{
-      position:relative;
-      border-radius:10px;overflow:hidden;
-      background:var(--bg2);
-      border:1px solid rgba(255,255,255,0.06);
-      text-decoration:none;color:#fff;
-      transition:transform 0.22s,box-shadow 0.22s,border-color 0.22s;
-      display:flex;flex-direction:column;
-    }
-    .film-card:hover{
-      transform:translateY(-6px) scale(1.02);
-      box-shadow:0 16px 40px rgba(0,0,0,0.6);
-      border-color:rgba(29,185,84,0.4);
-    }
-    .film-thumb{
-      position:relative;
-      aspect-ratio:16/9;
-      overflow:hidden;
-      background:#000;
-    }
-    .film-thumb img{
-      width:100%;height:100%;object-fit:cover;
-      display:block;
-      transition:transform 0.3s;
-    }
-    .film-card:hover .film-thumb img{transform:scale(1.05)}
-    .film-badge{
-      position:absolute;top:0.5rem;left:0.5rem;
-      background:var(--green);color:#000;
-      font-size:0.6rem;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;
-      padding:0.2rem 0.55rem;border-radius:4px;
-    }
-    .film-overlay{
-      position:absolute;inset:0;
-      background:linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 60%);
-      opacity:0;transition:opacity 0.25s;
-      display:flex;align-items:center;justify-content:center;
-    }
-    .film-card:hover .film-overlay{opacity:1}
-    .film-play-btn{
-      width:52px;height:52px;border-radius:50%;
-      background:var(--green);
-      display:flex;align-items:center;justify-content:center;
-      box-shadow:0 0 20px rgba(29,185,84,0.5);
-    }
-    .film-info{
-      padding:0.85rem 0.9rem 1rem;
-    }
-    .film-title{
-      font-size:0.92rem;font-weight:800;color:#fff;
-      line-height:1.3;margin-bottom:0.25rem;
-    }
-    .film-meta{
-      font-size:0.72rem;font-weight:500;color:var(--gray);
-      display:flex;align-items:center;gap:0.5rem;
-    }
-    .film-meta span{display:flex;align-items:center;gap:0.25rem}
-    .film-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--gray);flex-shrink:0}
+        /* Header & Thanh điều hướng */
+        header {
+            background-color: var(--header-bg);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
 
-    /* ── VIDEO EMBED ── */
-    .video-container{
-      position:relative;border-radius:12px;overflow:hidden;
-      aspect-ratio:16/9;background:#000;
-      box-shadow:0 8px 40px rgba(0,0,0,0.8),0 0 0 1px rgba(255,255,255,0.05);
-    }
-    .video-container iframe{width:100%;height:100%;border:none;display:block}
+        .logo img {
+            height: 40px; /* Điều chỉnh chiều cao logo cho phù hợp */
+            object-fit: contain;
+            display: block;
+        }
 
-    /* ── CONTRIBUTORS ── */
-    .members-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
-      gap:0.75rem;
-    }
-    .member-card{
-      background:var(--bg2);
-      border:1px solid rgba(255,255,255,0.06);
-      border-radius:8px;padding:1.1rem 1rem;
-      display:flex;align-items:center;gap:0.9rem;
-      transition:background 0.2s,border-color 0.2s,transform 0.2s;
-      cursor:default;
-    }
-    .member-card:hover{
-      background:var(--surface);
-      border-color:rgba(29,185,84,0.35);
-      transform:translateY(-2px);
-    }
-    .member-avatar{
-      width:44px;height:44px;border-radius:50%;
-      background:linear-gradient(135deg,var(--green-dk),#1DB954,#5af08a);
-      display:flex;align-items:center;justify-content:center;
-      font-weight:900;font-size:0.9rem;color:#000;
-      flex-shrink:0;box-shadow:0 0 12px var(--green-glow);
-    }
-    .member-name{font-weight:700;font-size:0.875rem;color:#fff;line-height:1.3}
-    .member-role{font-size:0.67rem;font-weight:700;color:var(--green);letter-spacing:0.1em;text-transform:uppercase;margin-top:2px}
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            font-weight: 500;
+            font-size: 15px;
+        }
 
-    /* ── PROJECTS ── */
-    .projects-shelf{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-      gap:0.75rem;
-    }
-    .project-card{
-      position:relative;background:var(--bg2);
-      border:1px solid rgba(255,255,255,0.06);border-radius:8px;
-      padding:1.4rem 1.4rem 1.4rem 1.6rem;
-      text-decoration:none;color:#fff;
-      display:flex;flex-direction:column;gap:0.35rem;
-      transition:background 0.2s,border-color 0.2s,transform 0.22s,box-shadow 0.22s;
-      overflow:hidden;
-    }
-    .project-card::before{
-      content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
-      background:var(--green);transform:scaleY(0);transform-origin:bottom;
-      transition:transform 0.22s;
-    }
-    .project-card:hover{
-      background:var(--surface);border-color:rgba(29,185,84,0.3);
-      transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,0.5);
-    }
-    .project-card:hover::before{transform:scaleY(1)}
-    .project-icon{font-size:1.5rem;margin-bottom:0.1rem}
-    .project-name{font-size:1.05rem;font-weight:800;color:#fff}
-    .project-url{font-size:0.73rem;font-weight:500;color:var(--gray)}
-    .project-arrow{
-      position:absolute;top:1.2rem;right:1.2rem;
-      color:rgba(255,255,255,0.18);font-size:1rem;
-      transition:color 0.2s;
-    }
-    .project-card:hover .project-arrow{color:var(--green)}
+        /* Dropdown cho Thể loại */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            padding: 10px 0;
+        }
 
-    .sep{height:1px;background:rgba(255,255,255,0.05);margin:0.5rem 0}
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: var(--header-bg);
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.5);
+            top: 100%;
+            left: 0;
+            z-index: 1;
+            border-top: 2px solid var(--accent-color);
+        }
 
-    .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.55s ease,transform 0.55s ease}
-    .reveal.visible{opacity:1;transform:translateY(0)}
+        .dropdown-content a {
+            color: var(--text-color);
+            padding: 12px 16px;
+            display: block;
+        }
 
-    @media(max-width:600px){
-      .billboard-content{padding:2rem 1.5rem 2.5rem}
-      .content-area{padding:0 1rem 4rem}
-      nav{padding:0 1rem}
-    }
-  </style>
+        .dropdown-content a:hover {
+            background-color: #1f2937;
+            color: var(--accent-color);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Thanh tìm kiếm */
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #1f2937;
+            border-radius: 20px;
+            padding: 5px 15px;
+            border: 1px solid #374151;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            padding: 5px;
+            width: 200px;
+        }
+
+        /* Bố cục nội dung chính */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .main-content {
+            flex: 3;
+        }
+
+        .sidebar {
+            flex: 1;
+            background-color: var(--header-bg);
+            padding: 20px;
+            border-radius: 8px;
+            height: fit-content;
+        }
+
+        /* Tiêu đề Section */
+        .section-title {
+            font-size: 20px;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            border-bottom: 2px solid #1f2937;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Lưới hiển thị Phim */
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .movie-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.02);
+        }
+
+        .movie-thumbnail {
+            width: 100%;
+            height: 270px;
+            object-fit: cover;
+        }
+
+        .movie-info {
+            padding: 10px;
+        }
+
+        .movie-title {
+            font-size: 14px;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--accent-color);
+        }
+
+        .movie-category {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        /* Badge */
+        .badge-ep {
+            position: absolute;
+            bottom: 60px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 3px 8px;
+            font-size: 12px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            nav {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<nav>
-  <a href="#" class="nav-logo">Mẹt Phim</a>
-  <div class="nav-links">
-    <a href="#phim-moi">Phim Mới</a>
-    <a href="#nguoi-dong-gop">Người đóng góp</a>
-    <a href="#du-an-khac">Dự án khác</a>
-  </div>
-</nav>
-
-<!-- BILLBOARD – phim nổi bật -->
-<div class="billboard">
-  <div class="billboard-bg"></div>
-  <div class="billboard-content">
-    <div class="billboard-tag">Phim Mới · Mẹt Phim</div>
-    <h1 class="billboard-title">Hộp Bánh<br/>Của Ngoại</h1>
-    <p class="billboard-sub">Bài tập về nhà. Làm phim hoạt hình.</p>
-    <div class="billboard-actions">
-      <a href="https://youtu.be/oEtSnpup26k" target="_blank" class="btn-play">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        Phát
-      </a>
-      <a href="#phim-moi" class="btn-more">Xem tất cả phim</a>
-    </div>
-  </div>
-</div>
-
-<div class="content-area">
-
-  <!-- PHIM MỚI NHẤT -->
-  <section id="phim-moi">
-    <div class="row-header reveal">
-      <div class="row-bar"></div>
-      <h2>Phim Mới Nhất</h2>
-    </div>
-    <div class="film-shelf">
-
-      <!-- Phim 1: Hộp Bánh Của Ngoại -->
-      <a href="https://youtu.be/oEtSnpup26k" target="_blank" class="film-card reveal" style="transition-delay:0.05s">
-        <div class="film-thumb">
-          <img src="https://res.cloudinary.com/dlrax6e5x/image/upload/v1776002510/gwnngzmttpgk7sbmfofe.png" alt="Hộp Bánh Của Ngoại" loading="lazy"/>
-          <div class="film-badge">MỚI</div>
-          <div class="film-overlay">
-            <div class="film-play-btn">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="#000"><path d="M8 5v14l11-7z"/></svg>
+    <header>
+        <a href="/" class="logo">
+            <img src="https://raw.githubusercontent.com/metphim/metphim.github.io/refs/heads/main/assets/images/MetPhim%20banner_preview.png" alt="MetPhim Logo">
+        </a>
+        <nav>
+            <a href="/">Trang Chủ</a>
+            <div class="dropdown">
+                <span>Thể Loại ▾</span>
+                <div class="dropdown-content">
+                    <a href="#">Hoạt hình</a>
+                    <a href="#">Phim Học Đường</a>
+                </div>
             </div>
-          </div>
+            <a href="#">Năm</a>
+            <a href="https://github.com/metphim/metphim.github.io/" target="_blank">Github</a>
+        </nav>
+        <div class="search-bar">
+            <input type="text" placeholder="Tìm kiếm phim...">
         </div>
-        <div class="film-info">
-          <div class="film-title">Hộp Bánh Của Ngoại</div>
-          <div class="film-meta">
-            <span>🎬 Hoạt hình</span>
-            <span class="dot"></span>
-            <span>2026</span>
-          </div>
-        </div>
-      </a>
+    </header>
 
-      <!-- Phim 2: Buton or Zipper -->
-      <a href="https://youtu.be/DGL4XpHk3LY?si=TlQOmnH4kXR8yKKM" target="_blank" class="film-card reveal" style="transition-delay:0.1s">
-        <div class="film-thumb">
-          <img src="https://img.youtube.com/vi/DGL4XpHk3LY/maxresdefault.jpg" alt="Buton or Zipper" loading="lazy"/>
-          <div class="film-badge">MỚI</div>
-          <div class="film-overlay">
-            <div class="film-play-btn">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="#000"><path d="M8 5v14l11-7z"/></svg>
+    <div class="container">
+        <main class="main-content">
+            <h2 class="section-title">PHIM BỘ MỚI</h2>
+            
+            <div class="movie-grid" id="movie-container">
+                </div>
+        </main>
+
+        <aside class="sidebar">
+            <h2 class="section-title">PHIM HOT TRONG TUẦN</h2>
+            <div style="color: var(--text-muted); font-size: 14px;">
+                <p>Nội dung sẽ được cập nhật sau...</p>
             </div>
-          </div>
-        </div>
-        <div class="film-info">
-          <div class="film-title">Buton or Zipper</div>
-          <div class="film-meta">
-            <span>🎬 Hoạt hình</span>
-            <span class="dot"></span>
-            <span>2026</span>
-          </div>
-        </div>
-      </a>
-
+        </aside>
     </div>
-  </section>
 
-  <div class="sep"></div>
+    <script>
+        // Đường dẫn tới file JSON lưu trữ phim của bạn trên Github
+        // Khi chạy thực tế trên Github Pages, đường dẫn này sẽ hợp lệ.
+        const jsonUrl = 'data/2026/faptv/nguoi trong san truong.json';
 
-  <!-- NGƯỜI ĐÓNG GÓP -->
-  <section id="nguoi-dong-gop">
-    <div class="row-header reveal">
-      <div class="row-bar"></div>
-      <h2>Người Đóng Góp</h2>
-    </div>
-    <div class="members-grid">
-      <div class="member-card reveal" style="transition-delay:0.05s">
-        <div class="member-avatar">DV</div>
-        <div><div class="member-name">Do Tat Vinh</div><div class="member-role">Thành viên</div></div>
-      </div>
-      <div class="member-card reveal" style="transition-delay:0.1s">
-        <div class="member-avatar">CM</div>
-        <div><div class="member-name">Nguyen Cong Minh</div><div class="member-role">Thành viên</div></div>
-      </div>
-      <div class="member-card reveal" style="transition-delay:0.15s">
-        <div class="member-avatar">NN</div>
-        <div><div class="member-name">Nguyen Thien Nhan</div><div class="member-role">Thành viên</div></div>
-      </div>
-      <div class="member-card reveal" style="transition-delay:0.2s">
-        <div class="member-avatar">HA</div>
-        <div><div class="member-name">Nguyen Hoang Anh</div><div class="member-role">Thành viên</div></div>
-      </div>
-      <div class="member-card reveal" style="transition-delay:0.25s">
-        <div class="member-avatar">TP</div>
-        <div><div class="member-name">Nguyen Tan Phat</div><div class="member-role">Thành viên</div></div>
-      </div>
-    </div>
-  </section>
+        // Hàm fetch dữ liệu và render HTML
+        async function loadMovies() {
+            const container = document.getElementById('movie-container');
+            
+            try {
+                const response = await fetch(jsonUrl);
+                
+                // Nếu không tìm thấy file, hiển thị một bộ phim mẫu để bạn dễ hình dung UI
+                if (!response.ok) {
+                    throw new Error('Chưa tìm thấy file JSON. (Đây là dữ liệu mẫu)');
+                }
+                
+                const movies = await response.json();
+                renderMovies(movies, container);
 
-  <div class="sep"></div>
+            } catch (error) {
+                console.log(error.message);
+                // DỮ LIỆU MẪU: Dùng trong lúc bạn thiết lập chưa xong cấu trúc thư mục
+                const fallbackData = [
+                    {
+                        "id": "fap-ntst-01",
+                        "title": "Người Trong Sân Trường - Tập 01",
+                        "category": "Phim Học Đường",
+                        "year": 2026,
+                        "thumbnail": "https://img.youtube.com/vi/v2FnzedNeI4/maxresdefault.jpg"
+                    },
+                    {
+                        "id": "fap-ntst-02",
+                        "title": "Người Trong Sân Trường - Tập 02",
+                        "category": "Phim Học Đường",
+                        "year": 2026,
+                        "thumbnail": "https://img.youtube.com/vi/j5BxY4h--gY/maxresdefault.jpg"
+                    }
+                ];
+                renderMovies(fallbackData, container);
+            }
+        }
 
-  <!-- DỰ ÁN KHÁC -->
-  <section id="du-an-khac">
-    <div class="row-header reveal">
-      <div class="row-bar"></div>
-      <h2>Dự Án Khác</h2>
-    </div>
-    <div class="projects-shelf">
-      <a href="https://candimate.github.io/" target="_blank" class="project-card reveal">
-        <div class="project-icon">📸</div>
-        <div class="project-name">Candimate</div>
-        <div class="project-url">candimate.github.io</div>
-        <div class="project-arrow">↗</div>
-      </a>
-    </div>
-  </section>
+        // Hàm tạo HTML cho từng card phim
+        function renderMovies(movies, container) {
+            container.innerHTML = ''; // Xóa nội dung "Đang tải"
+            
+            movies.forEach(movie => {
+                // Trích xuất "Tập XX" từ tiêu đề để làm Badge (nếu có)
+                let tapStr = "";
+                if(movie.title.includes("-")) {
+                    tapStr = movie.title.split("-")[1].trim();
+                } else {
+                    tapStr = "Full";
+                }
 
-</div>
+                const cardHTML = `
+                    <div class="movie-card" onclick="alert('Chuyển hướng đến phim: ${movie.id}')">
+                        <img class="movie-thumbnail" src="${movie.thumbnail}" alt="${movie.title}">
+                        <div class="badge-ep">${tapStr}</div>
+                        <div class="movie-info">
+                            <div class="movie-title">${movie.title}</div>
+                            <div class="movie-category">${movie.category} • ${movie.year}</div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        }
 
-<script>
-  const io = new IntersectionObserver(
-    entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') }),
-    { threshold: 0.1 }
-  );
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-</script>
+        // Gọi hàm khi trang vừa load xong
+        document.addEventListener('DOMContentLoaded', loadMovies);
+    </script>
 </body>
 </html>

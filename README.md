@@ -65,7 +65,7 @@ metphim.github.io/
 
 ## 🚀 Demo
 
-👉 https://your-username.github.io/metphim.github.io/
+👉 https://metphim.github.io/metphim.github.io/
 
 ---
 
@@ -108,7 +108,7 @@ Cách đóng góp:
 ## 👤 Tác giả
 
 **Đỗ Tất Vinh**
-Học sinh lớp 11 – THPT Lộc Hiệp
+Học sinh lớp 11 - THPT Lộc Hiệp
 
 ---
 
